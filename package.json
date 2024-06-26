@@ -2,8 +2,7 @@
   "name": "blogging-platform",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://{pavanbharathbalasani}.github.io/{blog}",
-
+  "homepage": "http://{pavanbharathbalasani}.github.io/{blogs}",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -43,6 +42,3 @@
     ]
   }
 }
-
-  
-
