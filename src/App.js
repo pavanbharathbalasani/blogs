@@ -8,10 +8,11 @@ import BlogPost from './components/BlogPost';
 import AddEditPost from './components/AddEditPost';
 import './styles/animations.css'; // Import CSS for animations
 
+// Main application component
 const App = () => {
   return (
     <Router>
-      <GlobalStyle />
+      <GlobalStyle /> {/* Apply global styles */}
       <Nav>
         <Title>Blogging Platform</Title>
         <NavLinks>
@@ -19,28 +20,30 @@ const App = () => {
           <NavLink to="/new">Add New Post</NavLink>
         </NavLinks>
       </Nav>
-      <AnimatedRoutes />
+      <AnimatedRoutes /> {/* Render animated routes */}
     </Router>
   );
 };
 
+// Component to handle route transitions with animations
 const AnimatedRoutes = () => {
-  const location = useLocation();
+  const location = useLocation(); // Get the current location
 
   return (
     <TransitionGroup>
       <CSSTransition key={location.key} classNames="fade" timeout={300}>
         <Routes location={location}>
-          <Route path="/" element={<BlogPostList />} />
-          <Route path="/post/:id" element={<BlogPost />} />
-          <Route path="/edit/:id" element={<AddEditPost />} />
-          <Route path="/new" element={<AddEditPost />} />
+          <Route path="/" element={<BlogPostList />} /> {/* Route for the blog post list */}
+          <Route path="/post/:id" element={<BlogPost />} /> {/* Route for viewing a single blog post */}
+          <Route path="/edit/:id" element={<AddEditPost />} /> {/* Route for editing a blog post */}
+          <Route path="/new" element={<AddEditPost />} /> {/* Route for adding a new blog post */}
         </Routes>
       </CSSTransition>
     </TransitionGroup>
   );
 };
 
+// Styled component for the navigation bar
 const Nav = styled.nav`
   background: #333;
   color: #fff;
@@ -49,15 +52,18 @@ const Nav = styled.nav`
   padding: 1rem;
 `;
 
+// Styled component for the site title
 const Title = styled.h1`
   margin: 0;
 `;
 
+// Styled component for the navigation links container
 const NavLinks = styled.div`
   display: flex;
   gap: 1rem;
 `;
 
+// Styled component for each navigation link
 const NavLink = styled(Link)`
   color: #fff;
   text-decoration: none;

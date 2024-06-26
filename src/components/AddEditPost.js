@@ -3,9 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { loadPosts, savePosts } from '../utils/mockAPI';
 
+// This component handles both adding and editing blog posts
 const AddEditPost = () => {
+  // Getting the post ID from the URL, if available
   const { id } = useParams();
+  // Hook for programmatic navigation
   const navigate = useNavigate();
+  // Setting up state to manage the form data
   const [formData, setFormData] = useState({
     title: '',
     author: '',
@@ -13,30 +17,35 @@ const AddEditPost = () => {
     date: '',
   });
 
+  // This effect runs when the component mounts and whenever the post ID changes
   useEffect(() => {
     if (id) {
-      const posts = loadPosts();
-      const post = posts.find(p => p.id === parseInt(id));
-      if (post) setFormData(post);
+      const posts = loadPosts(); // Load all posts from local storage or mock API
+      const post = posts.find(p => p.id === parseInt(id)); // Find the post with the matching ID
+      if (post) setFormData(post); // If the post exists, populate the form with its data
     }
-  }, [id]);
+  }, [id]); // Dependency array ensures this effect runs when 'id' changes
 
+  // Handler for input changes, updating the form state
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value } = e.target; // Get the name and value from the input field
+    setFormData({ ...formData, [name]: value }); // Update the corresponding form field in state
   };
 
+  // Handler for form submission
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const posts = loadPosts();
+    e.preventDefault(); // Prevent the default form submission behavior
+    const posts = loadPosts(); // Load all posts from local storage or mock API
     if (id) {
+      // If there's an ID, we're editing an existing post
       const updatedPosts = posts.map(p => (p.id === parseInt(id) ? formData : p));
-      savePosts(updatedPosts);
+      savePosts(updatedPosts); // Save the updated list of posts
     } else {
-      const newPost = { ...formData, id: Date.now() };
-      savePosts([...posts, newPost]);
+      // If there's no ID, we're adding a new post
+      const newPost = { ...formData, id: Date.now() }; // Create a new post with a unique ID
+      savePosts([...posts, newPost]); // Save the new list of posts, including the new post
     }
-    navigate('/');
+    navigate('/'); // Navigate back to the homepage after saving
   };
 
   return (
@@ -44,19 +53,42 @@ const AddEditPost = () => {
       <Form onSubmit={handleSubmit}>
         <label>
           Title:
-          <input type="text" name="title" value={formData.title} onChange={handleChange} required />
+          <input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            required
+          />
         </label>
         <label>
           Author:
-          <input type="text" name="author" value={formData.author} onChange={handleChange} required />
+          <input
+            type="text"
+            name="author"
+            value={formData.author}
+            onChange={handleChange}
+            required
+          />
         </label>
         <label>
           Content:
-          <textarea name="content" value={formData.content} onChange={handleChange} required></textarea>
+          <textarea
+            name="content"
+            value={formData.content}
+            onChange={handleChange}
+            required
+          ></textarea>
         </label>
         <label>
           Date:
-          <input type="date" name="date" value={formData.date} onChange={handleChange} required />
+          <input
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            required
+          />
         </label>
         <SubmitButton type="submit">Submit</SubmitButton>
       </Form>
@@ -64,6 +96,7 @@ const AddEditPost = () => {
   );
 };
 
+// Styled component for the form container to center it and add some padding and styling
 const FormContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -75,6 +108,7 @@ const FormContainer = styled.div`
   margin: 2rem;
 `;
 
+// Styled component for the form to arrange the elements in a column and style the inputs
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -98,9 +132,10 @@ const Form = styled.form`
   }
 `;
 
+// Styled component for the submit button to make it look nice and add hover effects
 const SubmitButton = styled.button`
   width: 100%; 
-  max-width:600px;
+  max-width: 600px;
   padding: 0.75rem;
   margin: 1.5rem 0;
   background-color: #007bff;
