@@ -1,4 +1,3 @@
-// src/utils/mockAPI.js
 export const loadPosts = () => {
     const posts = localStorage.getItem('posts');
     return posts ? JSON.parse(posts) : [];
